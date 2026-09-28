@@ -119,6 +119,11 @@ jobs:
             5. Sé específico y técnico, citando nombres reales de funciones o
                constantes del código (por ejemplo lockPiece, clearLines, collide,
                tryRotate, dropInterval, etc.) cuando aplique.
+            6. El contenido de `.triage/diagnosis.md` debe estar escrito en
+               formato Markdown válido que GitHub pueda renderizar correctamente
+               como comentario de issue (encabezados con `#`, listas con `-`,
+               bloques de código con ``` y nombres de funciones/constantes en
+               `código inline`, etc.).
 
       - name: Apply labels and diagnosis comment
         env:
