@@ -40,6 +40,10 @@ All game logic lives in `game.js` (~300 lines, single file, no modules). Key pie
 
 All DOM/canvas element references are grabbed once at the top of `game.js` as module-level `const`s (`canvas`, `ctx`, `nextCanvas`, `scoreEl`, `overlay`, etc.) and mutable game state lives in a single `let board, current, next, score, ...` declaration, reset in `init()`.
 
+### Theming
+
+Colors live in CSS variables in `:root` (dark, default) and `:root[data-theme="light"]` in `style.css`. `applyTheme()` in `game.js` sets `data-theme`, persists it in `localStorage`, caches canvas colors (`--grid`, `--highlight`) into `gridColor`/`highlightColor`, and redraws. An inline script in `<head>` applies the saved theme before first paint. The toggle is `#theme-toggle` (also the `T` key).
+
 ### Tunable constants (in `game.js`)
 
 | Constant | Meaning | Default |
@@ -54,4 +58,4 @@ If you change `COLS`, `ROWS`, or `BLOCK`, also update the `width`/`height` attri
 
 ## Controls (for reference when touching input handling)
 
-`←`/`→` move, `↑`/`X` rotate CW, `↓` soft drop, `Space` hard drop, `P` pause. All input handling is a single `keydown` listener with a `switch` on `e.code` near the bottom of `game.js`.
+`←`/`→` move, `↑`/`X` rotate CW, `↓` soft drop, `Space` hard drop, `P` pause, `T` toggle light/dark theme. All input handling is a single `keydown` listener with a `switch` on `e.code` near the bottom of `game.js`.
