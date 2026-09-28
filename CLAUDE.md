@@ -26,8 +26,8 @@ Then visit `http://localhost:8000` if using a server. There are no automated tes
 
 All game logic lives in `game.js` (~300 lines, single file, no modules). Key pieces:
 
-- **Board model**: `board` is a `ROWS × COLS` (20×10) matrix; each cell is `0` (empty) or a piece color index (1–7).
-- **Pieces**: defined in `PIECES` as square matrices (I, O, T, S, Z, J, L). Rotation is done via `rotateCW` (transpose + row reverse), not precomputed rotation states.
+- **Board model**: `board` is a `ROWS × COLS` (20×10) matrix; each cell is `0` (empty) or a piece color index (1–8).
+- **Pieces**: defined in `PIECES` as square matrices (I, O, T, S, Z, J, L, and N — a 3×3 "tuerca"/nut with an empty center). Rotation is done via `rotateCW` (transpose + row reverse), not precomputed rotation states. The nut piece's empty center cell (`0`) is a real hole: `collide`/`merge`/`clearLines` treat it like any other empty cell, so once it's locked into the board it can trap an unfillable gap. `drawNutHole()` draws a decorative ring over that hole while the piece is falling (current piece, ghost, and next preview); once merged into the board only the 8 surrounding blocks remain.
 - **Wall kicks**: `tryRotate` attempts the rotated shape at offsets `[0, -1, 1, -2, 2]` columns, using the first that doesn't collide.
 - **Collision**: `collide(shape, ox, oy)` checks board bounds and existing fixed blocks.
 - **Game loop**: `loop(ts)` runs via `requestAnimationFrame`, accumulating delta time in `dropAccum` and advancing the piece down a row once `dropAccum >= dropInterval`.
@@ -50,7 +50,7 @@ Colors live in CSS variables in `:root` (dark, default) and `:root[data-theme="l
 | --- | --- | --- |
 | `COLS` / `ROWS` | Board dimensions | `10` / `20` |
 | `BLOCK` | Pixel size per cell | `30` |
-| `COLORS` | Color per piece index (1–7) | 7 colors |
+| `COLORS` | Color per piece index (1–8) | 8 colors |
 | `LINE_SCORES` | Points for 1–4 lines cleared | `[0,100,300,500,800]` |
 | `dropInterval` | Initial fall speed (ms) | `1000` |
 
