@@ -255,6 +255,7 @@ function loop(ts) {
     }
   }
   draw();
+  if (gameOver) return; // no reprogramar el loop si el juego ya terminó
   animId = requestAnimationFrame(loop);
 }
 
