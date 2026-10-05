@@ -44,6 +44,10 @@ All DOM/canvas element references are grabbed once at the top of `game.js` as mo
 
 Colors live in CSS variables in `:root` (dark, default) and `:root[data-theme="light"]` in `style.css`. `applyTheme()` in `game.js` sets `data-theme`, persists it in `localStorage`, caches canvas colors (`--grid`, `--highlight`) into `gridColor`/`highlightColor`, and redraws. An inline script in `<head>` applies the saved theme before first paint. The toggle is `#theme-toggle` (also the `T` key).
 
+### Start screen and high scores
+
+The game no longer auto-starts: `showStartScreen()` renders an idle board plus `#start-screen` (top-5 table, best combo, max lines, "Jugar" -> `init()`, "Resetear records" with `confirm()`). `started` guards the global keydown listener. localStorage keys: `tetris-highscores` (array of up to 5 `{name, score, lines, level, date}`) and `tetris-stats` (`{bestCombo, maxLines}`). At game over `showGameOverScores()` shows a name input (if the score qualifies and is > 0) inside `#overlay`; the input stops keydown propagation. Combo = consecutive locks clearing >=1 line (tracked in `clearLines()`). Names are rendered with `textContent`, max 12 chars.
+
 ### Tunable constants (in `game.js`)
 
 | Constant | Meaning | Default |
