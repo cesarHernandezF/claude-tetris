@@ -7,11 +7,16 @@
   <script>
     try { document.documentElement.dataset.theme = localStorage.getItem('theme') === 'light' ? 'light' : 'dark'; }
     catch (e) { document.documentElement.dataset.theme = 'dark'; }
+    try { document.documentElement.dataset.skin = localStorage.getItem('skin') || 'retro'; }
+    catch (e) { document.documentElement.dataset.skin = 'retro'; }
   </script>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false"></button>
+  <div class="top-controls">
+    <select id="skin-select" class="skin-select" aria-label="Skin"></select>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false"></button>
+  </div>
   <main class="app">
   <h1 class="game-title">TETRIS</h1>
   <div class="wrapper">

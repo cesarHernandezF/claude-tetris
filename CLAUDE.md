@@ -44,13 +44,17 @@ All DOM/canvas element references are grabbed once at the top of `game.js` as mo
 
 Colors live in CSS variables in `:root` (dark, default) and `:root[data-theme="light"]` in `style.css`. `applyTheme()` in `game.js` sets `data-theme`, persists it in `localStorage`, caches canvas colors (`--grid`, `--highlight`) into `gridColor`/`highlightColor`, and redraws. An inline script in `<head>` applies the saved theme before first paint. The toggle is `#theme-toggle` (also the `T` key).
 
+### Skins
+
+`SKINS` in `game.js` (`retro`, `neon`, `pastel`, `pixel`) each define `colors` (index 1-8) and a `block(ctx, px, py, size, color)` draw function (neon also `hole`). `drawBlock`/`drawNutHole` dispatch on the active `skinName` and wrap drawing in `save()/restore()` so `shadowBlur`/alpha never leak. `applySkin()` sets `data-skin` on `<html>`, persists it in `localStorage` (`skin`), and calls `applyTheme()` to recache CSS colors and redraw. Neon forces a black board via `:root[data-skin="neon"]` in `style.css`. The selector is `#skin-select` (top right, next to the theme toggle).
+
 ### Tunable constants (in `game.js`)
 
 | Constant | Meaning | Default |
 | --- | --- | --- |
 | `COLS` / `ROWS` | Board dimensions | `10` / `20` |
 | `BLOCK` | Pixel size per cell | `30` |
-| `COLORS` | Color per piece index (1–8) | 8 colors |
+| `SKINS[*].colors` | Color per piece index (1–8), per skin | 8 colors |
 | `LINE_SCORES` | Points for 1–4 lines cleared | `[0,100,300,500,800]` |
 | `dropInterval` | Initial fall speed (ms) | `1000` |
 
