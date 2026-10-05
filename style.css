@@ -40,6 +40,13 @@
   --board-shadow: rgba(0, 0, 0, 0.15);
 }
 
+:root[data-skin="neon"] {
+  --board-bg: #000000;
+  --grid: #141428;
+  --border: #1f3b4d;
+  --board-shadow: rgba(0, 240, 255, 0.25);
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -74,10 +81,26 @@ body {
   text-shadow: 0 0 20px var(--accent-glow);
 }
 
-.theme-toggle {
+.top-controls {
   position: fixed;
   top: 16px;
   right: 16px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.skin-select {
+  background: var(--board-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.theme-toggle {
   background: var(--board-bg);
   color: var(--text);
   border: 1px solid var(--border);
