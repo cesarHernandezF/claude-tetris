@@ -33,10 +33,11 @@ All game logic lives in `game.js` (~300 lines, single file, no modules). Key pie
 - **Game loop**: `loop(ts)` runs via `requestAnimationFrame`, accumulating delta time in `dropAccum` and advancing the piece down a row once `dropAccum >= dropInterval`.
 - **Locking/clearing**: `lockPiece()` → `merge()` (bakes the piece into `board`) → `clearLines()` (scans bottom-up, splices full rows, unshifts empty rows at top) → `spawn()`.
 - **Scoring**: `LINE_SCORES = [0, 100, 300, 500, 800]` multiplied by `level`; hard drop adds 2 points/row dropped, soft drop adds 1 point/row.
-- **Leveling/speed**: level = `floor(lines / 10) + 1`; `dropInterval = max(100, 1000 - (level-1)*90)` ms.
+- **Leveling/speed**: level = `max(gameStartLevel, floor(lines / 10) + 1)`; `dropInterval = intervalForLevel(level)` = `max(100, 1000 - (level-1)*90)` ms. `startLevel` (1–10) is chosen in the pause menu, persisted in `localStorage`, and applied on the next `init()`.
 - **Ghost piece**: `ghostY()` projects the current piece straight down to its landing row; drawn with `globalAlpha = 0.2`.
 - **Rendering**: `draw()` clears and redraws the board canvas each frame (grid, locked blocks, ghost, current piece); `drawNext()` renders the preview piece on a separate canvas.
 - **Game over**: triggered in `spawn()` when a freshly spawned piece immediately collides.
+- **Pause menu**: `P`/`Escape` toggles `togglePause()`, which shows `#pause-menu` (separate from the game-over `#overlay`) with Reanudar, Reiniciar (`init()`), Ver controles, and the Nivel inicial `<select>`. While paused the keydown listener only lets P/Escape/T through and arrows move focus between menu items.
 
 All DOM/canvas element references are grabbed once at the top of `game.js` as module-level `const`s (`canvas`, `ctx`, `nextCanvas`, `scoreEl`, `overlay`, etc.) and mutable game state lives in a single `let board, current, next, score, ...` declaration, reset in `init()`.
 
@@ -58,4 +59,4 @@ If you change `COLS`, `ROWS`, or `BLOCK`, also update the `width`/`height` attri
 
 ## Controls (for reference when touching input handling)
 
-`←`/`→` move, `↑`/`X` rotate CW, `↓` soft drop, `Space` hard drop, `P` pause, `T` toggle light/dark theme. All input handling is a single `keydown` listener with a `switch` on `e.code` near the bottom of `game.js`.
+`←`/`→` move, `↑`/`X` rotate CW, `↓` soft drop, `Space` hard drop, `P`/`Escape` pause menu, `T` toggle light/dark theme. All input handling is a single `keydown` listener with a `switch` on `e.code` near the bottom of `game.js`.
